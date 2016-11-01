@@ -4,13 +4,13 @@ task getDiscordants{
     Int threads
     command{
         samtools view -h -@ ${threads} -F 1294 -u -b -h  ${inputBam} > ${inputBam}.temp && \
-        samtools sort -@ ${threads} -m 3G ${inputBam}.temp > ${inputBam}.discords.bam && rm ${inputBam}.temp
+        samtools sort -@ ${threads} -m 3G ${inputBam}.temp > discords.bam && rm ${inputBam}.temp
     }
     runtime{
         docker : "erictdawson/lumpy-sv"
     }
     output {
-        File discordsBam="${inputBam}.discords.bam"
+        File discordsBam="discords.bam"
     }
 }
 
@@ -21,13 +21,13 @@ task getSplits{
         samtools view -h -@ ${threads} ${bamToSplits} | \
         /app/lumpy-sv/scripts/extractSplitReads_BwaMem -i stdin | \
         samtools view -@ ${threads} -b -u - > ${bamToSplits}.temp && \
-        samtools sort -@ ${threads} -m 3G ${bamToSplits}.temp > ${bamToSplits}.splits.bam && rm ${bamToSplits}.temp
+        samtools sort -@ ${threads} -m 3G ${bamToSplits}.temp > splits.bam && rm ${bamToSplits}.temp
     }
     runtime{
         docker : "erictdawson/lumpy-sv"
     }
     output {
-        File splitsBam="${bamToSplits}.splits.bam"
+        File splitsBam="splits.bam"
     }
 }
 
@@ -38,13 +38,13 @@ task lumpyexpress{
     Int threads
 
     command {
-        lumpyexpress -B ${inputBam} -P -t ${threads} -S ${bamSplits} -D ${bamDiscords}
+        lumpyexpress -B ${inputBam} -t ${threads} -S ${bamSplits} -D ${bamDiscords} -o calls.vcf
     }
     runtime {
         docker : "erictdawson/lumpy-sv"
     }
     output{
-        File outVCF="${inputBam}.vcf"
+        File outVCF="calls.vcf"
     }
 }
 

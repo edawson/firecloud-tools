@@ -1,11 +1,22 @@
 FROM ubuntu:14.04
 MAINTAINER Eric T Dawson
-LABEL "tag"="lumpy-SV"
+LABEL "tag"="erictdawson/lumpy-sv"
 
 RUN apt-get update &&  apt-get install -y \
-    gcc-4.9 build-essential zlib1g-dev git \
-    wget python2.7 tar libncurses5-dev automake autoconf cmake \
-    python-dev python-pip
+    autoconf \
+    automake \
+    build-essential \
+    cmake \
+    gawk \
+    gcc-4.9 \
+    git \
+    libncurses5-dev \
+    python-dev \
+    python-pip \
+    python2.7 \
+    tar \
+    wget \
+    zlib1g-dev
 
 RUN mkdir /app
 WORKDIR /app
