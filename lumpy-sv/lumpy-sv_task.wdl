@@ -1,5 +1,3 @@
-
-
 task lumpy {
     File sampleBAM
     File splits
@@ -18,7 +16,7 @@ task lumpy {
     }
 
     runtime{
-        docker : "erictdawson/lumpy-express-sv"
+        docker : "erictdawson/lumpy-sv"
     }
 
     meta{
