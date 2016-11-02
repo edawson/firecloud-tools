@@ -1,0 +1,4 @@
+{
+    "sambambaSort.threads" : 1,
+    "sambambaSort.inputBam" : "tmp.bam"
+}
