@@ -1,5 +1,5 @@
 {
     "lumpyexpressFULL.threads": 1,
-    "lumpyexpressFULL.inputBamNormal": "tmp.bam"
+    "lumpyexpressFULL.inputBamNormal": "tmp.bam",
     "lumpyexpressFULL.inputBamTumor": "tmp.bam"
 }
