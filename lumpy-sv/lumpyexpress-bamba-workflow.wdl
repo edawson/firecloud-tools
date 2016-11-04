@@ -7,6 +7,9 @@ task getDiscordants{
     }
     runtime{
         docker : "erictdawson/lumpy-sv"
+	cpu : "${threads}"
+	memory : "40 GB"
+	disks : "local-disk 400 HDD"
     }
     output {
         File discordsBam="discords.bam"
@@ -24,6 +27,9 @@ task getSplits{
     }
     runtime{
         docker : "erictdawson/lumpy-sv"
+	cpu : "${threads}"
+	memory : "40 GB"
+	disks : "local-disk 400 HDD"
     }
     output {
         File splitsBam="splits.bam"
@@ -41,6 +47,9 @@ task lumpyexpress{
     }
     runtime {
         docker : "erictdawson/lumpy-sv"
+	cpu : "${threads}"
+	memory : "40 GB"
+	disks : "local-disk 400 HDD"
     }
     output{
         File outVCF="calls.vcf"
