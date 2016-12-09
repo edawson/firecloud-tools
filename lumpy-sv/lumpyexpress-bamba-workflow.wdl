@@ -1,4 +1,3 @@
-
 task getDiscordants{
     File inputBam
     Int threads
@@ -43,7 +42,9 @@ task lumpyexpress{
     Int threads
 
     command {
-        lumpyexpress -B ${inputBam} -t ${threads} -S ${bamSplits} -D ${bamDiscords} -o calls.vcf
+        lumpyexpress -B ${inputBam} -t ${threads} -S ${bamSplits} -D ${bamDiscords} -o calls.vcf && \
+        find `pwd` -iname "calls.vcf" -exec mv -vf  {}  . ;\
+        touch calls.vcf
     }
     runtime {
         docker : "erictdawson/lumpy-sv"
