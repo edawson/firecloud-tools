@@ -1,4 +1,4 @@
 {
-    "lumpyexpressFULL.threads": 1,
+    "lumpyexpressFULL.threads": 8,
     "lumpyexpressFULL.inputBam": "tmp.bam"
 }
