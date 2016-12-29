@@ -1,4 +1,4 @@
-FROM ubuntu:14.04
+FROM ubuntu:16.04
 MAINTAINER Eric T Dawson
 LABEL "tag"="erictdawson/lumpy-sv"
 
@@ -11,6 +11,7 @@ RUN apt-get update &&  apt-get install -y \
     gcc-4.9 \
     git \
     libncurses5-dev \
+    ldc \
     python-dev \
     python-pip \
     python2.7 \
@@ -34,10 +35,9 @@ RUN git clone --recursive https://github.com/GregoryFaust/samblaster.git
 RUN cd samblaster && make -j 4 && cp samblaster /usr/bin/
 
 RUN pip install pysam numpy
-#RUN wget https://github.com/lomereiter/sambamba/wiki/%5Bsambamba-view%5D-Filter-expression-syntax && \
-#    tar xjf sambam
-RUN wget https://github.com/lomereiter/sambamba/releases/download/v0.6.5/sambamba_v0.6.5_linux.tar.bz2 && \
-    tar xjf sambamba_v0.6.5_linux.tar.bz2 && cp sambamba_v0.6.5 /usr/bin/sambamba
+#RUN wget https://github.com/lomereiter/sambamba/releases/download/v0.6.5/sambamba_v0.6.5_linux.tar.bz2 && \
+#    tar xjf sambamba_v0.6.5_linux.tar.bz2 && cp sambamba_v0.6.5 /usr/bin/sambamba
+RUN git clone --recursive https://github.com/lomereiter/sambamba.git && cd sambamba && make sambamba-ldmd2-64 && cp build/sambamba /usr/bin/
 
 RUN git clone --recursive https://github.com/arq5x/lumpy-sv.git
 RUN cd lumpy-sv/ && make -j 4  && cp ./bin/* /usr/bin/

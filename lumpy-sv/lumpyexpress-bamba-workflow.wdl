@@ -1,14 +1,14 @@
 task getDiscordants{
     File inputBam
     Int threads
-    command{
-    sambamba sort -F "unmapped and mate_is_unmapped and proper_pair and secondary_alignment and duplicate" -t ${threads} -o discords.bam ${inputBam}; find .
-    }
+    command <<<
+        sambamba view --num-filter /1294 -o /dev/stdout ${inputBam} | sambamba sort -t ${threads} -o discords.bam /dev/stdin
+    >>>
     runtime{
         docker : "erictdawson/lumpy-sv"
 	cpu : "${threads}"
 	memory : "40 GB"
-	disks : "local-disk 400 HDD"
+	disks : "local-disk 1000 HDD"
     }
     output {
         File discordsBam="discords.bam"
@@ -22,13 +22,13 @@ task getSplits{
         sambamba view -h -t ${threads} ${bamToSplits} | \
         /app/lumpy-sv/scripts/extractSplitReads_BwaMem -i stdin | \
         sambamba view -S -f bam -l 0 -t ${threads} -o /dev/stdout /dev/stdin | \
-        sambamba sort -t ${threads} -o splits.bam /dev/stdin > splits.bam; find .
+        sambamba sort -t ${threads} -o splits.bam /dev/stdin; find .
     }
     runtime{
         docker : "erictdawson/lumpy-sv"
 	cpu : "${threads}"
 	memory : "40 GB"
-	disks : "local-disk 400 HDD"
+	disks : "local-disk 1000 HDD"
     }
     output {
         File splitsBam="splits.bam"
@@ -42,15 +42,15 @@ task lumpyexpress{
     Int threads
 
     command <<<
-        lumpyexpress -B ${inputBam} -t ${threads} -S ${bamSplits} -D ${bamDiscords} -o calls.vcf && \ 
-        find `pwd` -iname "calls.vcf" -exec mv -vf {} . \;
-        touch calls.vcf"
+        lumpyexpress -B ${inputBam} -t ${threads} -S ${bamSplits} -D ${bamDiscords} -o calls.vcf && \
+        find `pwd` -iname "calls.vcf" -exec mv -vf  {}  . \;
+        touch -c calls.vcf
     >>>
     runtime {
         docker : "erictdawson/lumpy-sv"
-	cpu : "${threads}"
-	memory : "40 GB"
-	disks : "local-disk 400 HDD"
+	    cpu : "${threads}"
+	    memory : "40 GB"
+	    disks : "local-disk 1000 HDD"
     }
     output {
         File outVCF="calls.vcf"
