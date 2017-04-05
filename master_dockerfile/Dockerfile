@@ -53,3 +53,5 @@ RUN git clone --recursive https://github.com/dellytools/delly.git && cd delly &&
 RUN git clone git://github.com/nygenome/lancet.git && cd lancet && make && cp src/lancet /usr/bin/
 
 RUN git clone --recursive https://github.com/vcflib/vcflib && cd vcflib && make && cp bin/* /usr/bin
+
+RUN wget https://github.com/samtools/bcftools/releases/download/1.4/bcftools-1.4.tar.bz2 && tar xfj bcftools-1.4.tar.bz2 && cd bcftools-1.4 make -j 4 && make install
