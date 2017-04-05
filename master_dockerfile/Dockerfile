@@ -50,4 +50,6 @@ RUN git clone --recursive https://github.com/arq5x/lumpy-sv.git && cd lumpy-sv/ 
 
 RUN git clone --recursive https://github.com/dellytools/delly.git && cd delly && make all && cp src/delly /usr/bin
 
+RUN git clone git://github.com/nygenome/lancet.git && cd lancet && make && cp src/lancet /usr/bin/
 
+RUN git clone --recursive https://github.com/vcflib/vcflib && cd vcflib && make && cp bin/* /usr/bin
