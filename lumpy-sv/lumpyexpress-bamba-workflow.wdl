@@ -1,11 +1,11 @@
 task getDiscordants{
     File inputBam
     Int threads
-    command <<<
-        sambamba view --num-filter /1294 -o /dev/stdout ${inputBam} | sambamba sort -t ${threads} -o discords.bam /dev/stdin
-    >>>
+    command {
+        sambamba view -h -f bam --num-filter /1294 -o bambatmp.bam ${inputBam}  &&  sambamba sort -t ${threads} -o discords.bam bambatmp.bam
+    }
     runtime{
-        docker : "erictdawson/lumpy-sv"
+        docker : "erictdawson/svdocker"
 	cpu : "${threads}"
 	memory : "40 GB"
 	disks : "local-disk 1000 HDD"
@@ -21,11 +21,11 @@ task getSplits{
     command {
         sambamba view -h -t ${threads} ${bamToSplits} | \
         /app/lumpy-sv/scripts/extractSplitReads_BwaMem -i stdin | \
-        sambamba view -S -f bam -l 0 -t ${threads} -o /dev/stdout /dev/stdin | \
+        sambamba view -S -f bam -h -l 5 -t ${threads} -o /dev/stdout /dev/stdin | \
         sambamba sort -t ${threads} -o splits.bam /dev/stdin; find .
     }
     runtime{
-        docker : "erictdawson/lumpy-sv"
+        docker : "erictdawson/svdocker"
 	cpu : "${threads}"
 	memory : "40 GB"
 	disks : "local-disk 1000 HDD"
@@ -41,13 +41,11 @@ task lumpyexpress{
     File bamDiscords
     Int threads
 
-    command <<<
-        lumpyexpress -B ${inputBam} -t ${threads} -S ${bamSplits} -D ${bamDiscords} -o calls.vcf && \
-        find `pwd` -iname "calls.vcf" -exec mv -vf  {}  . \;
-        touch -c calls.vcf
-    >>>
+    command {
+        lumpyexpress -B ${inputBam} -t ${threads} -S ${bamSplits} -D ${bamDiscords} -o calls.vcf
+    }
     runtime {
-        docker : "erictdawson/lumpy-sv"
+        docker : "erictdawson/svdocker"
 	    cpu : "${threads}"
 	    memory : "40 GB"
 	    disks : "local-disk 1000 HDD"
