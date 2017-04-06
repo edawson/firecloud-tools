@@ -40,9 +40,10 @@ task lumpyexpress{
     File bamSplits
     File bamDiscords
     Int threads
+    String sampleName
 
     command {
-        lumpyexpress -B ${inputBam} -t ${threads} -S ${bamSplits} -D ${bamDiscords} -o calls.vcf
+        lumpyexpress -B ${inputBam} -t ${threads} -S ${bamSplits} -D ${bamDiscords} -o ${sampleName}.lumpy.vcf
     }
     runtime {
         docker : "erictdawson/svdocker"
@@ -51,14 +52,16 @@ task lumpyexpress{
 	    disks : "local-disk 1000 HDD"
     }
     output {
-        File outVCF="calls.vcf"
+        File outVCF="${sampleName}.lumpy.vcf"
     }
 }
+
 
 workflow lumpyexpressFULL {
     File inputBam
     Int threads
-   
+    String name
+
     call getDiscordants{
         input:
             inputBam=inputBam,
@@ -76,6 +79,10 @@ workflow lumpyexpressFULL {
             inputBam=inputBam,
             threads=threads,
             bamSplits=getSplits.splitsBam,
-            bamDiscords=getDiscordants.discordsBam
+            bamDiscords=getDiscordants.discordsBam,
+            sampleName=name
+    }
+    output {
+        File calledVCF = lumpyexpress.outVCF
     }
 }

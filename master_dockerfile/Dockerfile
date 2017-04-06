@@ -48,7 +48,7 @@ RUN wget https://github.com/lomereiter/sambamba/releases/download/v0.6.6/sambamb
 
 RUN git clone --recursive https://github.com/arq5x/lumpy-sv.git && cd lumpy-sv/ && make  && cp ./bin/* /usr/bin/
 
-RUN git clone --recursive https://github.com/dellytools/delly.git && cd delly && make all && cp src/delly /usr/bin
+RUN git clone --recursive https://github.com/dellytools/delly.git && cd delly && make PARALLEL=1 -B src/delly && cp src/delly /usr/bin
 
 RUN git clone git://github.com/nygenome/lancet.git && cd lancet && make && cp src/lancet /usr/bin/
 
