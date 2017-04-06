@@ -1,0 +1,7 @@
+{
+    "dellyAll.threads": 4,
+    "dellyAll.inputBAM": "alt.sorted.bam",
+    "dellyAll.reference" : "mega.orig.fa",
+    "dellyAll.index" : "alt.sorted.bam.bai",
+    "dellyAll.name" : "mega"
+}
