@@ -42,5 +42,4 @@ workflow lancetFULL{
                 ref = reference
         }
     }
-
 }
