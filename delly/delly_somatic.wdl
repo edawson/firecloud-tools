@@ -90,7 +90,7 @@ workflow dellyAll{
         input:
             insBCF=insCall.xbcf,
             delBCF=delCall.xbcf,
-            invBCF=insCall.xbcf,
+            invBCF=invCall.xbcf,
             sampleName=name
         }
     }
