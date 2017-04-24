@@ -8,20 +8,24 @@ task runLancet{
     String region
     File ref
 
+    String pre_region_str = sub(region, ":", "_")
+    String fin_region_str = sub(pre_region_str, "-", "_")
+
     command {
-        lancet --tumor ${tumorBam} --normal ${normalBam} --ref ${ref} --reg ${region} --num-threads ${threads} > ${sampleName}.lancet.vcf
+        lancet --tumor ${tumorBam} --normal ${normalBam} --ref ${ref} --reg ${region} --num-threads ${threads} > ${sampleName}.${fin_region_str}.lancet.vcf
     }
 
     runtime {
         docker : "erictdawson/svdocker"
         cpu : "${threads}"
-        memory : "40 GB"
+        memory : "64 GB"
         disks : "local-disk 1000 HDD"
     }
 
     output{
-        #File calls = "${sampleName}.${region}.lancet.vcf"
-        File calls = "${sampleName}.lancet.vcf"
+        
+        File calls = "${sampleName}.${fin_region_str}.lancet.vcf"
+        #File calls = "${sampleName}.lancet.vcf"
     }
 }
 
