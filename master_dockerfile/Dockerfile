@@ -13,7 +13,6 @@ RUN apt-get update &&  apt-get install -y \
     gnupg \
     libcurl4-gnutls-dev \
     libssl-dev \
-
     libncurses5-dev \
     libbz2-dev \
     liblzma-dev \
@@ -55,3 +54,7 @@ RUN git clone git://github.com/nygenome/lancet.git && cd lancet && make && cp sr
 RUN git clone --recursive https://github.com/vcflib/vcflib && cd vcflib && make && cp bin/* /usr/bin
 
 RUN wget https://github.com/samtools/bcftools/releases/download/1.4/bcftools-1.4.tar.bz2 && tar xfj bcftools-1.4.tar.bz2 && cd bcftools-1.4 make -j 4 && make install
+
+RUN wget https://pypi.python.org/packages/cf/41/636795b48c84fb8331710e9f6e948b2b9d0a3123c7fdaac62b061411de0a/telomerehunter-1.0.4.tar.gz && tar xvzf telomerehunter-1.0.4.tar.gz && \
+    cd telomerehunter-1.0.4/ && python setup.py build && python setup.py install
+
