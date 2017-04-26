@@ -5,7 +5,7 @@ task getDiscordants{
         sambamba view -h -f bam --num-filter /1294 -o bambatmp.bam ${inputBam}  &&  sambamba sort -t ${threads} -o discords.bam bambatmp.bam
     }
     runtime{
-        docker : "erictdawson/svdocker"
+        docker : "erictdawson/svdocker:latest"
 	cpu : "${threads}"
 	memory : "24 GB"
 	disks : "local-disk 1000 HDD"
@@ -25,7 +25,7 @@ task getSplits{
         sambamba sort -t ${threads} -o splits.bam /dev/stdin; find .
     }
     runtime{
-        docker : "erictdawson/svdocker"
+        docker : "erictdawson/svdocker:latest"
 	cpu : "${threads}"
 	memory : "24 GB"
 	disks : "local-disk 1000 HDD"
@@ -46,7 +46,7 @@ task lumpyexpress{
         lumpyexpress -B ${inputBam} -t ${threads} -S ${bamSplits} -D ${bamDiscords} -o ${sampleName}.lumpy.vcf
     }
     runtime {
-        docker : "erictdawson/svdocker"
+        docker : "erictdawson/svdocker:latest"
 	    cpu : "${threads}"
 	    memory : "60 GB"
 	    disks : "local-disk 1000 HDD"
