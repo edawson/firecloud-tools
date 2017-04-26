@@ -7,7 +7,7 @@ task getDiscordants{
     runtime{
         docker : "erictdawson/svdocker"
 	cpu : "${threads}"
-	memory : "40 GB"
+	memory : "24 GB"
 	disks : "local-disk 1000 HDD"
     }
     output {
@@ -27,7 +27,7 @@ task getSplits{
     runtime{
         docker : "erictdawson/svdocker"
 	cpu : "${threads}"
-	memory : "40 GB"
+	memory : "24 GB"
 	disks : "local-disk 1000 HDD"
     }
     output {
@@ -48,7 +48,7 @@ task lumpyexpress{
     runtime {
         docker : "erictdawson/svdocker"
 	    cpu : "${threads}"
-	    memory : "40 GB"
+	    memory : "60 GB"
 	    disks : "local-disk 1000 HDD"
     }
     output {
@@ -65,13 +65,13 @@ workflow lumpyexpressFULL {
     call getDiscordants{
         input:
             inputBam=inputBam,
-            threads=threads
+            threads=8
     }
 
     call getSplits{
         input:
             bamToSplits=inputBam,
-            threads=threads
+            threads=8
     }
 
     call lumpyexpress{
