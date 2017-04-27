@@ -12,13 +12,14 @@ task runLancet{
     String fin_region_str = sub(pre_region_str, "-", "_")
 
     command {
-        lancet --tumor ${tumorBam} --normal ${normalBam} --ref ${ref} --reg ${region} --num-threads ${threads} > ${sampleName}.${fin_region_str}.lancet.vcf
+        ## Try to bail on repeat areas by ignoring regions w/ greater than 1000X coverage
+        lancet --tumor ${tumorBam} --normal ${normalBam} --ref ${ref} --reg ${region} --num-threads ${threads} --max-avg-cov 1000 > ${sampleName}.${fin_region_str}.lancet.vcf
     }
 
     runtime {
         docker : "erictdawson/svdocker"
         cpu : "${threads}"
-        memory : "64 GB"
+        memory : "118 GB"
         disks : "local-disk 1000 HDD"
     }
 
