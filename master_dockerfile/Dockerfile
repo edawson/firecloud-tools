@@ -7,6 +7,7 @@ RUN apt-get update &&  apt-get install -y \
     automake \
     build-essential \
     cmake \
+    dstat \
     gawk \
     gcc-4.9 \
     git \
@@ -58,3 +59,7 @@ RUN wget https://github.com/samtools/bcftools/releases/download/1.4/bcftools-1.4
 RUN wget https://pypi.python.org/packages/cf/41/636795b48c84fb8331710e9f6e948b2b9d0a3123c7fdaac62b061411de0a/telomerehunter-1.0.4.tar.gz && tar xvzf telomerehunter-1.0.4.tar.gz && \
     cd telomerehunter-1.0.4/ && python setup.py build && python setup.py install
 
+RUN wget https://downloads.sourceforge.net/project/integrate-fusion/INTEGRATE.0.2.6.tar.gz && \
+    tar xvzf INTEGRATE.0.2.6.tar.gz && cd INTEGRATE_0_2_6/Integrate && cmake . && make && cp bin/Integrate /usr/bin/
+
+RUN git clone --recursive https://github.com/zeeev/wham && cd wham && make
