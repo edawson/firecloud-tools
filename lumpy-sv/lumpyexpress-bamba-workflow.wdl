@@ -42,17 +42,19 @@ task lumpyexpress{
     Int threads
     String sampleName
 
+    String fin_sample_str = sub(sampleName, "-", "_")
+
     command {
-        lumpyexpress -B ${inputBam} -t ${threads} -S ${bamSplits} -D ${bamDiscords} -o ${sampleName}.lumpy.vcf
+        lumpyexpress -B ${inputBam} -t ${threads} -S ${bamSplits} -D ${bamDiscords} -o ${fin_sample_str}.lumpy.vcf
     }
     runtime {
-        docker : "erictdawson/svdocker:latest"
+        docker : "erictdawson/svdocker"
 	    cpu : "${threads}"
 	    memory : "60 GB"
 	    disks : "local-disk 1000 HDD"
     }
     output {
-        File outVCF="${sampleName}.lumpy.vcf"
+        File outVCF = "${fin_sample_str}.lumpy.vcf"
     }
 }
 
@@ -81,8 +83,5 @@ workflow lumpyexpressFULL {
             bamSplits=getSplits.splitsBam,
             bamDiscords=getDiscordants.discordsBam,
             sampleName=name
-    }
-    output {
-        File calledVCF = lumpyexpress.outVCF
     }
 }
