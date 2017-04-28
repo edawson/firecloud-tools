@@ -1,0 +1,7 @@
+{
+  "whamFULL.referenceIndex": "../mega.orig.fa.fai",
+  "whamFULL.threads": "4",
+  "whamFULL.bamFile": "../alt.bam",
+  "whamFULL.reference": "mega.orig.fa",
+  "whamFULL.sampleName": "Sample"
+}
