@@ -3,12 +3,10 @@ task runWhamg{
     File bamIndex
     File reference
     File referenceIndex
-    #Array[String] keepRegions
     Int threads
     String sampleName
 
-    String regStr = ""
-    String fin_str = "${sampleName}.${regStr}"
+    String fin_str = "${sampleName}"
     
     runtime{
         docker : "erictdawson/svdocker"
@@ -32,7 +30,6 @@ workflow whamFULL{
     File reference
     File referenceIndex
     String sampleName
-    #Array[String] keepRegions
     Int threads
 
     call runWhamg{
