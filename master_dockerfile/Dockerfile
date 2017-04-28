@@ -62,4 +62,4 @@ RUN wget https://pypi.python.org/packages/cf/41/636795b48c84fb8331710e9f6e948b2b
 RUN wget https://downloads.sourceforge.net/project/integrate-fusion/INTEGRATE.0.2.6.tar.gz && \
     tar xvzf INTEGRATE.0.2.6.tar.gz && cd INTEGRATE_0_2_6/Integrate && cmake . && make && cp bin/Integrate /usr/bin/
 
-RUN git clone --recursive https://github.com/zeeev/wham && cd wham && make
+RUN git clone --recursive https://github.com/zeeev/wham && cd wham && make && cp /app/wham/bin/whamg /usr/bin/
