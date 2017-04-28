@@ -11,7 +11,7 @@ task runWhamg{
     runtime{
         docker : "erictdawson/svdocker"
         cpu : "${threads}"
-        memory : "24 GB"
+        memory : "55 GB"
         disks : "local-disk 1000 HDD"
     }
 
