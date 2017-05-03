@@ -1,5 +1,6 @@
 task dellyCall{
-    File inputBAM
+    File tumorBAM
+    File normalBAM
     Int threads
     File reference
     File index
@@ -7,7 +8,7 @@ task dellyCall{
     String sampleName
 
     command{
-        export OMP_NUM_THREADS=${threads} && delly call --type ${type} -g ${reference} -o ${sampleName}.${type}.bcf ${inputBAM}
+        export OMP_NUM_THREADS=${threads} && delly call --type ${type} -g ${reference} -o ${sampleName}.somatic.${type}.bcf ${tumorBAM} ${normalBAM}
     }
 
     runtime{
@@ -18,7 +19,7 @@ task dellyCall{
     }
 
     output{
-        File xbcf = "${sampleName}.${type}.bcf"
+        File xbcf = "${sampleName}.somatic.${type}.bcf"
     }
 }
 
@@ -50,7 +51,8 @@ task vcflibMerge{
 
 
 workflow dellyAll{
-    File inputBAM
+    File tumorBAM
+    File normalBAM
     File index
     File reference
     Int threads
@@ -58,7 +60,8 @@ workflow dellyAll{
     
     call dellyCall as insCall{
         input:
-           inputBAM=inputBAM,
+           tumorBAM=tumorBAM,
+           normalBAM=normalBAM,
            reference=reference,
            index=index,
            threads=threads,
@@ -68,7 +71,8 @@ workflow dellyAll{
 
     call dellyCall as invCall{
         input:
-           inputBAM=inputBAM,
+           tumorBAM=tumorBAM,
+           normalBAM=normalBAM,
            reference=reference,
            index=index,
            threads=threads,
@@ -78,7 +82,8 @@ workflow dellyAll{
 
     call dellyCall as delCall{
         input:
-           inputBAM=inputBAM,
+           tumorBAM=tumorBAM,
+           normalBAM=normalBAM,
            reference=reference,
            index=index,
            type="DEL",
