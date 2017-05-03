@@ -30,10 +30,10 @@ task vcflibMerge{
     String sampleName
 
     command {
-        bcftools view ${insBCF} > ${sampleName}.delly.ins.vcf
-        bcftools view ${invBCF} > ${sampleName}.delly.inv.vcf
-        bcftools view ${delBCF} > ${sampleName}.delly.del.vcf
-        vcfcombine ${sampleName}.delly.ins.vcf ${sampleName}.delly.inv.vcf ${sampleName}.delly.del.vcf > ${sampleName}.merged.delly.vcf
+        bcftools view ${insBCF} > ${sampleName}.delly.somatic.ins.vcf
+        bcftools view ${invBCF} > ${sampleName}.delly.somatic.inv.vcf
+        bcftools view ${delBCF} > ${sampleName}.delly.somatic.del.vcf
+        vcfcombine ${sampleName}.delly.somatic.ins.vcf ${sampleName}.delly.somatic.inv.vcf ${sampleName}.delly.somatic.del.vcf > ${sampleName}.inv.ins.del.delly.somatic.vcf
     }
 
     runtime {
