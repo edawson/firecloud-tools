@@ -3,7 +3,8 @@ task dellyCall{
     File normalBAM
     Int threads
     File reference
-    File index
+    File tumorIndex
+    File normalIndex
     String type
     String sampleName
 
@@ -53,7 +54,8 @@ task vcflibMerge{
 workflow dellyAll{
     File tumorBAM
     File normalBAM
-    File index
+    File tumorIndex
+    File normalIndex
     File reference
     Int threads
     String name
@@ -63,7 +65,8 @@ workflow dellyAll{
            tumorBAM=tumorBAM,
            normalBAM=normalBAM,
            reference=reference,
-           index=index,
+           tumorIndex=tumorIndex,
+           normalIndex=normalIndex,
            threads=threads,
            type="INS",
            sampleName=name
@@ -74,7 +77,8 @@ workflow dellyAll{
            tumorBAM=tumorBAM,
            normalBAM=normalBAM,
            reference=reference,
-           index=index,
+           tumorIndex=tumorIndex,
+           normalIndex=normalIndex,
            threads=threads,
            type="INV",
            sampleName=name
@@ -85,7 +89,8 @@ workflow dellyAll{
            tumorBAM=tumorBAM,
            normalBAM=normalBAM,
            reference=reference,
-           index=index,
+           tumorIndex=tumorIndex,
+           normalIndex=normalIndex,
            type="DEL",
            threads=threads,
            sampleName=name
