@@ -9,7 +9,7 @@ task dellyCall{
     String sampleName
 
     command{
-        export OMP_NUM_THREADS=${threads} && delly call --type ${type}  -x delly/excludeTemplates/human.hg19.excl.tsv -g ${reference} -o ${sampleName}.somatic.${type}.bcf ${tumorBAM} ${normalBAM}
+        export OMP_NUM_THREADS=${threads} && delly call --type ${type}  -x /app/delly/excludeTemplates/human.hg19.excl.tsv -g ${reference} -o ${sampleName}.somatic.${type}.bcf ${tumorBAM} ${normalBAM}
     }
 
     runtime{
@@ -44,7 +44,7 @@ task vcflibMerge{
         disks : "local-disk 1000 HDD"
     }
     output{
-        File merged = "${sampleName}.merged.delly.vcf"
+        File merged = "${sampleName}.inv.ins.del.delly.somatic.vcf"
     }
 }
 
