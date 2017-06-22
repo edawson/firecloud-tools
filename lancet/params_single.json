@@ -1,0 +1,10 @@
+{
+    "lancetFULL.tumor" : "../alt.sorted.bam",
+    "lancetFULL.tumorIND" : "../alt.sorted.bam.bai",
+    "lancetFULL.normal" : "../ref.sorted.bam",
+    "lancetFULL.normalIND" : "../ref.sorted.bam.bai",
+    "lancetFULL.threads" : 4,
+    "lancetFULL.name" : "sample",
+    "lancetFULL.regionFile" : "beds.bed",
+    "lancetFULL.reference" : "../mega.orig.fa"
+}
