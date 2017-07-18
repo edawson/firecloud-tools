@@ -28,7 +28,7 @@ task vcflibMerge{
     File insBCF
     File invBCF
     File delBCF
-    File traBCF
+    File bndBCF
     File dupBCF
     String sampleName
 
@@ -36,9 +36,9 @@ task vcflibMerge{
         bcftools view ${insBCF} > ${sampleName}.delly.somatic.ins.vcf
         bcftools view ${invBCF} > ${sampleName}.delly.somatic.inv.vcf
         bcftools view ${delBCF} > ${sampleName}.delly.somatic.del.vcf
-        bcftools view ${traBCF} > ${sampleName}.delly.somatic.tra.vcf
+        bcftools view ${bndBCF} > ${sampleName}.delly.somatic.bnd.vcf
         bcftools view ${dupBCF} > ${sampleName}.delly.somatic.dup.vcf
-        vcfcombine ${sampleName}.delly.somatic.ins.vcf ${sampleName}.delly.somatic.inv.vcf ${sampleName}.delly.somatic.del.vcf >${sampleName}.delly.somatic.tra.vcf ${sampleName}.delly.somatic.dup.vcf ${sampleName}.inv.ins.del.tra.dup.delly.somatic.vcf
+        vcfcombine ${sampleName}.delly.somatic.ins.vcf ${sampleName}.delly.somatic.inv.vcf ${sampleName}.delly.somatic.del.vcf ${sampleName}.delly.somatic.bnd.vcf ${sampleName}.delly.somatic.dup.vcf > ${sampleName}.inv.ins.del.bnd.dup.delly.somatic.vcf
     }
 
     runtime {
@@ -48,7 +48,7 @@ task vcflibMerge{
         disks : "local-disk 1000 HDD"
     }
     output{
-        File merged = "${sampleName}.inv.ins.del.delly.somatic.vcf"
+        File merged = "${sampleName}.inv.ins.del.bnd.dup.delly.somatic.vcf"
     }
 }
 
@@ -100,14 +100,14 @@ workflow dellyAll{
            sampleName=name
     }
 
-    call dellyCall as traCall{
+    call dellyCall as bndCall{
         input:
            tumorBAM=tumorBAM,
            normalBAM=normalBAM,
            reference=reference,
            tumorIndex=tumorIndex,
            normalIndex=normalIndex,
-           type="TRA",
+           type="BND",
            threads=threads,
            sampleName=name
     }
@@ -131,8 +131,8 @@ workflow dellyAll{
             insBCF=insCall.xbcf,
             delBCF=delCall.xbcf,
             invBCF=invCall.xbcf,
-            traBCF=traCall.xbcf,
-            dupBCF=dupCall.xbcf
+            bndBCF=bndCall.xbcf,
+            dupBCF=dupCall.xbcf,
             sampleName=name
         }
     }
