@@ -28,13 +28,17 @@ task vcflibMerge{
     File insBCF
     File invBCF
     File delBCF
+    File traBCF
+    File dupBCF
     String sampleName
 
     command {
         bcftools view ${insBCF} > ${sampleName}.delly.somatic.ins.vcf
         bcftools view ${invBCF} > ${sampleName}.delly.somatic.inv.vcf
         bcftools view ${delBCF} > ${sampleName}.delly.somatic.del.vcf
-        vcfcombine ${sampleName}.delly.somatic.ins.vcf ${sampleName}.delly.somatic.inv.vcf ${sampleName}.delly.somatic.del.vcf > ${sampleName}.inv.ins.del.delly.somatic.vcf
+        bcftools view ${traBCF} > ${sampleName}.delly.somatic.tra.vcf
+        bcftools view ${dupBCF} > ${sampleName}.delly.somatic.dup.vcf
+        vcfcombine ${sampleName}.delly.somatic.ins.vcf ${sampleName}.delly.somatic.inv.vcf ${sampleName}.delly.somatic.del.vcf >${sampleName}.delly.somatic.tra.vcf ${sampleName}.delly.somatic.dup.vcf ${sampleName}.inv.ins.del.tra.dup.delly.somatic.vcf
     }
 
     runtime {
@@ -96,11 +100,39 @@ workflow dellyAll{
            sampleName=name
     }
 
+    call dellyCall as traCall{
+        input:
+           tumorBAM=tumorBAM,
+           normalBAM=normalBAM,
+           reference=reference,
+           tumorIndex=tumorIndex,
+           normalIndex=normalIndex,
+           type="TRA",
+           threads=threads,
+           sampleName=name
+    }
+
+    call dellyCall as dupCall{
+        input:
+           tumorBAM=tumorBAM,
+           normalBAM=normalBAM,
+           reference=reference,
+           tumorIndex=tumorIndex,
+           normalIndex=normalIndex,
+           type="DUP",
+           threads=threads,
+           sampleName=name
+    }
+
+
+
     call vcflibMerge{
         input:
             insBCF=insCall.xbcf,
             delBCF=delCall.xbcf,
             invBCF=invCall.xbcf,
+            traBCF=traCall.xbcf,
+            dupBCF=dupCall.xbcf
             sampleName=name
         }
     }
