@@ -1,0 +1,2 @@
+docker: Cannot connect to the Docker daemon at tcp://localhost:2376. Is the docker daemon running?.
+See 'docker run --help'.

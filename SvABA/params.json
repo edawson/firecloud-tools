@@ -1,0 +1,8 @@
+{
+  "svabaSomatic.threads": "4",
+  "svabaSomatic.tumorBAM": "../delly/alt.sorted.bam",
+  "svabaSomatic.id": "sample",
+  "svabaSomatic.regions": "reg.bed",
+  "svabaSomatic.normalBAM": "../delly/ref.sorted.bam",
+  "svabaSomatic.reference": "../delly/mega.orig.fa"
+}

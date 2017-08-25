@@ -1,0 +1,7 @@
+#!/bin/bash
+docker run \
+  --rm -i \
+   \
+  --entrypoint /bin/bash \
+  -v /Users/dawsonet/sandbox/firecloud-tools/SvABA/cromwell-executions/svabaSomatic/4e749086-4189-4fe7-86f9-05e909aa79b2/call-svabaCall:/cromwell-executions/svabaSomatic/4e749086-4189-4fe7-86f9-05e909aa79b2/call-svabaCall \
+  erictdawson/svdocker@sha256:17a869a24175e41a6a4fe8d2912545fbe8561cf63bd969b8fd04ccba2d3f5380 /cromwell-executions/svabaSomatic/4e749086-4189-4fe7-86f9-05e909aa79b2/call-svabaCall/execution/script

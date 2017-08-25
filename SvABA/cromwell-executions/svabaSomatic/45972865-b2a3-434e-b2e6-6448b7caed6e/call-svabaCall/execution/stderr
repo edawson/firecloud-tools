@@ -1,0 +1,6 @@
+-----------------------------------------------------------
+--- Running svaba SV and indel detection on 4 threads ---
+---    (inspect *.log for real-time progress updates)   ---
+-----------------------------------------------------------
+[E::bwa_idx_load_from_disk] fail to locate the index files
+ERROR: Unable to open index file: /cromwell-executions/svabaSomatic/45972865-b2a3-434e-b2e6-6448b7caed6e/call-svabaCall/inputs/Users/dawsonet/sandbox/firecloud-tools/SvABA/../delly/mega.orig.fa
