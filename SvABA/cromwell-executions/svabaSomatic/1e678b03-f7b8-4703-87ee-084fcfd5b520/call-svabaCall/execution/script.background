@@ -1,3 +1,0 @@
-#!/bin/bash
-'/bin/bash' '/Users/dawsonet/sandbox/firecloud-tools/SvABA/cromwell-executions/svabaSomatic/1e678b03-f7b8-4703-87ee-084fcfd5b520/call-svabaCall/execution/script.submit' > /Users/dawsonet/sandbox/firecloud-tools/SvABA/cromwell-executions/svabaSomatic/1e678b03-f7b8-4703-87ee-084fcfd5b520/call-svabaCall/execution/stdout 2> /Users/dawsonet/sandbox/firecloud-tools/SvABA/cromwell-executions/svabaSomatic/1e678b03-f7b8-4703-87ee-084fcfd5b520/call-svabaCall/execution/stderr < /dev/null || echo -1 > /Users/dawsonet/sandbox/firecloud-tools/SvABA/cromwell-executions/svabaSomatic/1e678b03-f7b8-4703-87ee-084fcfd5b520/call-svabaCall/execution/rc &
-echo $!
