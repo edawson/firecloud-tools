@@ -1,8 +1,16 @@
 {
   "svabaSomatic.threads": "4",
+  "svabaSomatic.refBWTIndex": "../delly/mega.orig.fa.bwt",
+  "svabaSomatic.refSAIndex": "../delly/mega.orig.fa.sa",
+  "svabaSomatic.refPACIndex": "../delly/mega.orig.fa.pac",
+  "svabaSomatic.refANNIndex": "../delly/mega.orig.fa.ann",
+  "svabaSomatic.refAMBIndex": "../delly/mega.orig.fa.amb",
   "svabaSomatic.tumorBAM": "../delly/alt.sorted.bam",
   "svabaSomatic.id": "sample",
   "svabaSomatic.regions": "reg.bed",
   "svabaSomatic.normalBAM": "../delly/ref.sorted.bam",
-  "svabaSomatic.reference": "../delly/mega.orig.fa"
+  "svabaSomatic.reference": "../delly/mega.orig.fa",
+  "svabaSomatic.refFAIndex": "../delly/mega.orig.fa.fai",
+  "svabaSomatic.normalIndex": "../delly/ref.sorted.bam.bai",
+  "svabaSomatic.tumorIndex": "../delly/alt.sorted.bam.bai"
 }
