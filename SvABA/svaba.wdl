@@ -13,7 +13,7 @@ task svabaCall{
     String id
     Int threads
     File regions
-#    File dbSNPVCF
+    File dbSNPVCF
 
     runtime{
         docker : "erictdawson/svdocker"
@@ -23,7 +23,7 @@ task svabaCall{
     }
 
     command{
-        svaba run -p ${threads} -t ${tumorBAM} -n ${normalBAM} --hp -G ${reference} -k ${regions} -a ${id}
+        svaba run -p ${threads} -t ${tumorBAM} -n ${normalBAM} --hp -G ${reference} -k ${regions} -a ${id} -D ${dbSNPVCF}
     }
 
     output{
@@ -56,7 +56,7 @@ workflow svabaSomatic{
     String id
     Int threads
     File regions
-    #File dbSNPVCF
+    File dbSNPVCF
 
     call svabaCall{
         input:
@@ -74,7 +74,7 @@ workflow svabaSomatic{
             id=id,
             threads=threads,
             regions=regions
-            #dbSNPVCF=dbSNPVCF
+            dbSNPVCF=dbSNPVCF
     }
 
 }
