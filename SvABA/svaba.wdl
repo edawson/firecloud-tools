@@ -73,7 +73,7 @@ workflow svabaSomatic{
             refPACIndex=refPACIndex,
             id=id,
             threads=threads,
-            regions=regions
+            regions=regions,
             dbSNPVCF=dbSNPVCF
     }
 
