@@ -16,8 +16,8 @@ task svabaCall{
     File dbSNPVCF
 
     runtime{
-        docker : "erictdawson/svdocker"
-        memory : "110 GB"
+        docker : "erictdawson/svdocker:latest"
+        memory : "28 GB"
         cpu : "${threads}"
         disks : "local-disk 1000 HDD"
     }
