@@ -55,7 +55,7 @@ workflow svabaSomatic{
 
     String id
     Int threads
-    File regions
+    File redacted_regions
     File dbSNPVCF
 
     call svabaCall{
