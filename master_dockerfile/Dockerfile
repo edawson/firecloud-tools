@@ -18,6 +18,7 @@ RUN apt-get update &&  apt-get install -y \
     libbz2-dev \
     liblzma-dev \
     ldc \
+    parallel \
     python-dev \
     python-pip \
     python2.7 \
@@ -73,3 +74,5 @@ RUN git clone --recursive https://github.com/lh3/fermikit.git && cd fermikit && 
 RUN git clone --recursive https://github.com/walaj/svaba.git && cd svaba && ./configure && make && make install && cp bin/svaba /usr/bin
 
 RUN git clone --recursive https://github.com/lh3/bwa && cd bwa && make && cp bwa /usr/bin
+
+RUN git clone --recursive https://github.com/ekg/freebayes.git && cd freebayes && make && make install
