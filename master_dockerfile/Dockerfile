@@ -18,7 +18,6 @@ RUN apt-get update &&  apt-get install -y \
     libbz2-dev \
     liblzma-dev \
     ldc \
-    parallel \
     python-dev \
     python-pip \
     python2.7 \
@@ -75,4 +74,8 @@ RUN git clone --recursive https://github.com/walaj/svaba.git && cd svaba && ./co
 
 RUN git clone --recursive https://github.com/lh3/bwa && cd bwa && make && cp bwa /usr/bin
 
-RUN git clone --recursive https://github.com/ekg/freebayes.git && cd freebayes && make && make install
+RUN wget http://ftp.gnu.org/gnu/parallel/parallel-20170722.tar.bz2 && tar xvjf http://ftp.gnu.org/gnu/parallel/parallel-20170722.tar.bz2 && cd parallel-20170722 && ./configure && make && make install
+
+RUN git clone --recursive https://github.com/ekg/freebayes && cd freebayes && make && make install && cd vcflib && make
+
+#RUN git clone --recursive https://github.com/arq5x/lumpy-sv && cd lumpy-sv && make && make install

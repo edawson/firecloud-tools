@@ -1,0 +1,8 @@
+{
+  "FreeBayes.reference": "File",
+  "FreeBayes.id": "String",
+  "FreeBayes.bamFile": "File",
+  "FreeBayes.referenceIndex": "File",
+  "FreeBayes.threads": "Int",
+  "FreeBayes.bamIndex": "File"
+}
