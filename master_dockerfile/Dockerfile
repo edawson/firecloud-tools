@@ -76,8 +76,10 @@ RUN git clone --recursive https://github.com/lh3/bwa && cd bwa && make && cp bwa
 
 RUN wget http://ftp.gnu.org/gnu/parallel/parallel-20170722.tar.bz2 && tar xvjf parallel-20170722.tar.bz2 && cd parallel-20170722 && ./configure && make && make install
 
-RUN git clone --recursive https://github.com/ekg/freebayes && cd freebayes && make && make install && cd vcflib && make && cp bin/* /usr/bin && cd ../ && cp scripts/* /usr/bin/
+RUN git clone --recursive https://github.com/edawson/freebayes && cd freebayes && make && make install && cd vcflib && make && cp bin/* /usr/bin && cd ../ && cp scripts/* /usr/bin/
 
 RUN git clone --recursive https://github.com/edawson/LaunChair
+
+ENTRYPOINT /bin/bash
 
 #RUN git clone --recursive https://github.com/arq5x/lumpy-sv && cd lumpy-sv && make && make install
