@@ -1,8 +1,8 @@
 {
-  "FreeBayes.reference": "File",
-  "FreeBayes.id": "String",
-  "FreeBayes.bamFile": "File",
-  "FreeBayes.referenceIndex": "File",
-  "FreeBayes.threads": "Int",
-  "FreeBayes.bamIndex": "File"
+  "FreeBayes.reference": "mega.orig.fa",
+  "FreeBayes.id": "mega",
+  "FreeBayes.bamFile": "alt.sorted.bam",
+  "FreeBayes.referenceIndex": "mega.orig.fa.fai",
+  "FreeBayes.threads": "4",
+  "FreeBayes.bamIndex": "alt.sorted.bam.bai"
 }
