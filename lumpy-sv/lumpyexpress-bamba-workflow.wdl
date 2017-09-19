@@ -1,8 +1,12 @@
 task getDiscordants{
     File inputBam
+    File inputBamIndex
+    String sample
+    String tag
     Int threads
+
     command {
-        sambamba view -h -f bam --num-filter /1294 -o bambatmp.bam ${inputBam}  &&  sambamba sort -t ${threads} -o discords.bam bambatmp.bam
+        sambamba view -h -f bam --num-filter /1294 -o ${sample}.${tag}.bambatmp.bam ${inputBam}  &&  sambamba sort -t ${threads} -o ${sample}.${tag}.discords.bam ${sample}.${tag}.bambatmp.bam
     }
     runtime{
         docker : "erictdawson/svdocker:latest"
@@ -11,18 +15,22 @@ task getDiscordants{
 	disks : "local-disk 1000 HDD"
     }
     output {
-        File discordsBam="discords.bam"
+        File discordsBam="${sample}.${tag}.discords.bam"
     }
 }
 
 task getSplits{
     File bamToSplits
+    File inputBamIndex
     Int threads
+    String sample
+    String tag
+
     command {
         sambamba view -h -t ${threads} ${bamToSplits} | \
         /app/lumpy-sv/scripts/extractSplitReads_BwaMem -i stdin | \
         sambamba view -S -f bam -h -l 5 -t ${threads} -o /dev/stdout /dev/stdin | \
-        sambamba sort -t ${threads} -o splits.bam /dev/stdin; find .
+        sambamba sort -t ${threads} -o ${sample}.${tag}.splits.bam /dev/stdin; find .
     }
     runtime{
         docker : "erictdawson/svdocker:latest"
@@ -31,21 +39,26 @@ task getSplits{
 	disks : "local-disk 1000 HDD"
     }
     output {
-        File splitsBam="splits.bam"
+        File splitsBam="${sample}.${tag}.splits.bam"
     }
 }
 
 task lumpyexpress{
-    File inputBam
-    File bamSplits
-    File bamDiscords
+    File tumorBam
+    File normalBam
+    File tumorBamIndex
+    File normalBamIndex
+    File tumorSplits
+    File tumorDiscords
+    File normalSplits
+    File normalDiscords
     Int threads
     String sampleName
 
     String fin_sample_str = sub(sampleName, "-", "_")
 
     command {
-        lumpyexpress -B ${inputBam} -t ${threads} -S ${bamSplits} -D ${bamDiscords} -o ${fin_sample_str}.lumpy.vcf
+        lumpyexpress -B ${tumorBam},${normalBam} -t ${threads} -S ${tumorSplits},${normalSplits} -D ${tumorDiscords},${normalDiscords} -o ${fin_sample_str}.tn.lumpy.vcf
     }
     runtime {
         docker : "erictdawson/svdocker"
@@ -54,34 +67,70 @@ task lumpyexpress{
 	    disks : "local-disk 1000 HDD"
     }
     output {
-        File outVCF = "${fin_sample_str}.lumpy.vcf"
+        File outVCF = "${fin_sample_str}.tn.lumpy.vcf"
     }
 }
 
 
 workflow lumpyexpressFULL {
-    File inputBam
-    Int threads
+    File tumorBam
+    File normalBam
+    File tumorBamIndex
+    File normalBamIndex
+    Int lumpyThreads
+    Int preThreads
     String name
 
-    call getDiscordants{
+    call getDiscordants as tumorDiscord{
         input:
-            inputBam=inputBam,
-            threads=8
+            inputBam=tumorBam,
+            inputBamIndex=tumorBamIndex,
+            threads=preThreads,
+            sample=name,
+            tag="tumor"
     }
 
-    call getSplits{
+    call getDiscordants as normalDiscord{
         input:
-            bamToSplits=inputBam,
-            threads=8
+            inputBam=normalBam,
+            inputBamIndex=normalBamIndex,
+            threads=preThreads,
+            sample=name,
+            tag="normal"
     }
+
+    call getSplits as tumorSplit{
+        input:
+            bamToSplits=normalBam,
+            inputBamIndex=tumorBamIndex,
+            threads=preThreads,
+            sample=name,
+            tag="tumor"
+    }
+
+ 
+    call getSplits as normalSplit{
+        input:
+            bamToSplits=normalBam,
+            inputBamIndex=normalBamIndex,
+            threads=preThreads,
+            sample=name,
+            tag="normal"
+    }
+
+   
 
     call lumpyexpress{
         input:
-            inputBam=inputBam,
-            threads=threads,
-            bamSplits=getSplits.splitsBam,
-            bamDiscords=getDiscordants.discordsBam,
+            tumorBam=tumorBam,
+            normalBam=normalBam,
+            tumorBamIndex=tumorBamIndex,
+            normalBamIndex=normalBamIndex,
+            threads=lumpyThreads,
+            tumorSplits=tumorSplit.splitsBam,
+            normalSplits=normalSplit.splitsBam,
+            tumorDiscords=tumorDiscord.discordsBam,
+            normalDiscords=normalDiscord.discordsBam,
             sampleName=name
     }
 }

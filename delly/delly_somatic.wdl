@@ -5,11 +5,12 @@ task dellyCall{
     File reference
     File tumorIndex
     File normalIndex
+    File excludes
     String type
     String sampleName
 
     command{
-        export OMP_NUM_THREADS=${threads} && delly call --type ${type}  -x /app/delly/excludeTemplates/human.hg19.excl.tsv -g ${reference} -o ${sampleName}.somatic.${type}.bcf ${tumorBAM} ${normalBAM}
+        export OMP_NUM_THREADS=${threads} && delly call --type ${type}  -x ${excludes} -g ${reference} -o ${sampleName}.somatic.${type}.bcf ${tumorBAM} ${normalBAM}
     }
 
     runtime{
@@ -61,6 +62,7 @@ workflow dellyAll{
     File tumorIndex
     File normalIndex
     File reference
+    File excludes
     Int threads
     String name
     
@@ -71,6 +73,7 @@ workflow dellyAll{
            reference=reference,
            tumorIndex=tumorIndex,
            normalIndex=normalIndex,
+           excludes=excludes,
            threads=threads,
            type="INS",
            sampleName=name
@@ -83,6 +86,7 @@ workflow dellyAll{
            reference=reference,
            tumorIndex=tumorIndex,
            normalIndex=normalIndex,
+           excludes=excludes,
            threads=threads,
            type="INV",
            sampleName=name
@@ -93,6 +97,7 @@ workflow dellyAll{
            tumorBAM=tumorBAM,
            normalBAM=normalBAM,
            reference=reference,
+           excludes=excludes,
            tumorIndex=tumorIndex,
            normalIndex=normalIndex,
            type="DEL",
@@ -107,6 +112,7 @@ workflow dellyAll{
            reference=reference,
            tumorIndex=tumorIndex,
            normalIndex=normalIndex,
+           excludes=excludes,
            type="BND",
            threads=threads,
            sampleName=name
@@ -119,6 +125,7 @@ workflow dellyAll{
            reference=reference,
            tumorIndex=tumorIndex,
            normalIndex=normalIndex,
+           excludes=excludes,
            type="DUP",
            threads=threads,
            sampleName=name
