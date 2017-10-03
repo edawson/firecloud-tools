@@ -5,17 +5,25 @@ task getDiscordants{
     String tag
     Int threads
 
-    command {
-        sambamba view -h -f bam --num-filter /1294 -o ${sample}.${tag}.bambatmp.bam ${inputBam}  &&  sambamba sort -t ${threads} -o ${sample}.${tag}.discords.bam ${sample}.${tag}.bambatmp.bam
-    }
+    String fin_sample_str = sub(sample, "-", "_")
+
+        #sambamba view -h -f bam --num-filter /1294 -o ${sample}.${tag}.bambatmp.bam ${inputBam}  &&  sambamba sort -t ${threads} -o ${sample}.${tag}.discords.bam ${sample}.${tag}.bambatmp.bam
+
     runtime{
+        bootDiskSizeGb: 50
         docker : "erictdawson/svdocker:latest"
-	cpu : "${threads}"
-	memory : "24 GB"
-	disks : "local-disk 1000 HDD"
+	    cpu : "${threads}"
+	    memory : "64 GB"
+	    disks : "local-disk 1000 HDD"
     }
+
+    command {
+        find . && samtools view -h -F 1294 -b -@ ${threads} ${inputBam} > ${sample}.${tag}.discords.unsrt.bam && \
+        samtools sort -@ ${threads} -m 6G ${sample}.${tag}.discords.unsrt.bam > ${fin_sample_str}.${tag}.discords.bam && find .
+    }
+
     output {
-        File discordsBam="${sample}.${tag}.discords.bam"
+        File discordsBam="${fin_sample_str}.${tag}.discords.bam"
     }
 }
 
@@ -26,20 +34,30 @@ task getSplits{
     String sample
     String tag
 
-    command {
-        sambamba view -h -t ${threads} ${bamToSplits} | \
-        /app/lumpy-sv/scripts/extractSplitReads_BwaMem -i stdin | \
-        sambamba view -S -f bam -h -l 5 -t ${threads} -o /dev/stdout /dev/stdin | \
-        sambamba sort -t ${threads} -o ${sample}.${tag}.splits.bam /dev/stdin; find .
-    }
+        #samtools view -h -@ ${threads} ${bamToSplits} | \
+        #/app/lumpy-sv/scripts/extractSplitReads_BwaMem -i stdin > tmp.discord.bam && \
+        #sambamba view -S -f bam -h -l 5 -t ${threads} -o /dev/stdout /dev/stdin | \
+        #sambamba sort -t ${threads} -o ${sample}.${tag}.splits.bam /dev/stdin; find .
+ 
+    String fin_sample_str = sub(sample, "-", "_")
+
     runtime{
+        bootDiskSizeGb: 50
         docker : "erictdawson/svdocker:latest"
-	cpu : "${threads}"
-	memory : "24 GB"
-	disks : "local-disk 1000 HDD"
+	    cpu : "${threads}"
+	    memory : "64 GB"
+	    disks : "local-disk 1000 HDD"
     }
+
+    command {
+        find . && samtools view -h ${bamToSplits} \
+            | /app/lumpy-sv/scripts/extractSplitReads_BwaMem -i stdin \
+            | samtools view -b - > ${sample}.${tag}.splits.unsrt.bam && \
+            samtools sort -m 6G -@ ${threads} ${sample}.${tag}.splits.unsrt.bam > ${fin_sample_str}.${tag}.splits.bam && find .
+          }
+
     output {
-        File splitsBam="${sample}.${tag}.splits.bam"
+        File splitsBam="${fin_sample_str}.${tag}.splits.bam"
     }
 }
 
@@ -58,12 +76,19 @@ task lumpyexpress{
     String fin_sample_str = sub(sampleName, "-", "_")
 
     command {
-        lumpyexpress -B ${tumorBam},${normalBam} -t ${threads} -S ${tumorSplits},${normalSplits} -D ${tumorDiscords},${normalDiscords} -o ${fin_sample_str}.tn.lumpy.vcf
+        find . && \
+        lumpyexpress -v \
+          -B ${tumorBam},${normalBam} \
+          -t ${threads} -S ${tumorSplits},${normalSplits} \
+          -D ${tumorDiscords},${normalDiscords} \
+          -o ${fin_sample_str}.tn.lumpy.vcf && \
+        find .
     }
     runtime {
-        docker : "erictdawson/svdocker"
+        bootDiskSizeGb: 50
+        docker : "erictdawson/svdocker:latest"
 	    cpu : "${threads}"
-	    memory : "60 GB"
+	    memory : "120 GB"
 	    disks : "local-disk 1000 HDD"
     }
     output {
@@ -133,4 +158,5 @@ workflow lumpyexpressFULL {
             normalDiscords=normalDiscord.discordsBam,
             sampleName=name
     }
+
 }

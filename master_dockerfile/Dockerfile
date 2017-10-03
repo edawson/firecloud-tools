@@ -5,6 +5,7 @@ LABEL "tag"="erictdawson/lumpy-sv"
 RUN apt-get update &&  apt-get install -y \
     autoconf \
     automake \
+    bsdmainutils \
     build-essential \
     cmake \
     dstat \
