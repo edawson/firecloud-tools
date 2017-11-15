@@ -1,0 +1,10 @@
+{
+  "lumpyexpressFULL.name": "TEST-SET",
+  "lumpyexpressFULL.excludes" : "svaba_exclusions.bed",
+  "lumpyexpressFULL.tumorBam": "alt.sorted.bam",
+  "lumpyexpressFULL.normalBamIndex": "ref.sorted.bam.bai",
+  "lumpyexpressFULL.normalBam": "ref.sorted.bam",
+  "lumpyexpressFULL.tumorBamIndex": "alt.sorted.bam.bai",
+  "lumpyexpressFULL.preThreads": "20",
+  "lumpyexpressFULL.lumpyThreads": "32"
+}
