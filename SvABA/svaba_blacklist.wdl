@@ -17,13 +17,13 @@ task svabaCall{
 
     runtime{
         docker : "erictdawson/svdocker:latest"
-        memory : "28 GB"
+        memory : "64 GB"
         cpu : "${threads}"
         disks : "local-disk 1000 HDD"
     }
 
     command{
-        svaba run -p ${threads} -t ${tumorBAM} -n ${normalBAM} --hp -G ${reference} -B ${redacted_regions} -a ${id} -D ${dbSNPVCF}
+        svaba run -p ${threads} -t ${tumorBAM} -n ${normalBAM} -G ${reference} -B ${redacted_regions} -a ${id} -D ${dbSNPVCF}
     }
 
     output{
