@@ -16,7 +16,7 @@ task VIZTASK{
 
 
     command <<<
-        mkdir results_${samplename} && svviz --export results_${samplename}/ --format pdf --type batch --sample-reads 1000 --max-deletion-size 5000 --min-mapq 40 --pair-min-mapq 60 --summary ${samplename}.summary.tsv -b ${tumorBAM} ${ref} ${pvcf} && tar cvzf results_${samplename}.tgz results_${samplename}/
+        mkdir results_${samplename} && svviz --export results_${samplename}/ --format pdf --type batch --sample-reads 1000 --max-size 10000000 --max-deletion-size 5000 --min-mapq 40 --pair-min-mapq 60 --summary ${samplename}.summary.tsv -b ${tumorBAM} ${ref} ${pvcf} && tar cvzf results_${samplename}.tgz results_${samplename}/
     >>>
 
     output{
