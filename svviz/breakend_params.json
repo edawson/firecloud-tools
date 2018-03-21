@@ -1,0 +1,9 @@
+{
+  "svvizflow.tumorBAM": "alt.sorted.bam",
+  "svvizflow.ref" : "mega.orig.fa", 
+  "svvizflow.controlBAMIndex": "ref.sorted.bam.bai",
+  "svvizflow.maf": "pp.maf",
+  "svvizflow.tumorBAMIndex": "alt.sorted.bam.bai",
+  "svvizflow.samplename": "samp",
+  "svvizflow.controlBAM": "ref.sorted.bam"
+}
