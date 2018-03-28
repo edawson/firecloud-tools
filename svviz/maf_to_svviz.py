@@ -15,5 +15,8 @@ if __name__ == "__main__":
     if (tokens[0] == tokens[3]) and \
         (abs(int(tokens[4]) - int(tokens[1])) < 2000):
         print(tokens[0], tokens[1], tokens[4])
+    elif (tokens[0] != tokens[3]):
+        direction = "+" if ((tokens[2] == "+" and tokens[5] == "+") or (tokens[2] == "-" and tokens[5] == "-")) else "-"
+        print(" ".join([tokens[0], tokens[1], tokens[3], tokens[4], direction]))
     else:
         print (" ".join(tokens))
