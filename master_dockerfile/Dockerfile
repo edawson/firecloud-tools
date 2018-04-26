@@ -1,10 +1,10 @@
 FROM ubuntu:16.04
 MAINTAINER Eric T Dawson
-LABEL "tag"="erictdawson/lumpy-sv"
 
 RUN apt-get update &&  apt-get install -y \
     autoconf \
     automake \
+    bc \
     bsdmainutils \
     build-essential \
     cmake \
@@ -42,15 +42,14 @@ RUN cd samtools-1.3.1 && make -j 4 && make install
 RUN git clone --recursive https://github.com/GregoryFaust/samblaster.git
 RUN cd samblaster && make -j 4 && cp samblaster /usr/bin/
 
-RUN pip install pysam numpy
 #RUN wget https://github.com/lomereiter/sambamba/releases/download/v0.6.5/sambamba_v0.6.5_linux.tar.bz2 && \
 #    tar xjf sambamba_v0.6.5_linux.tar.bz2 && cp sambamba_v0.6.5 /usr/bin/sambamba
 ##RUN git clone --recursive https://github.com/lomereiter/sambamba.git && cd sambamba && make sambamba-ldmd2-64 && cp build/sambamba /usr/bin/
 RUN wget https://github.com/lomereiter/sambamba/releases/download/v0.6.6/sambamba_v0.6.6_linux.tar.bz2 && tar xvjf sambamba_v0.6.6_linux.tar.bz2 && mv sambamba_v0.6.6 /usr/bin/sambamba
 
-RUN git clone --recursive https://github.com/arq5x/lumpy-sv.git && cd lumpy-sv/ && make  && cp ./bin/* /usr/bin/
+RUN pip install pysam numpy && wget https://github.com/arq5x/lumpy-sv/releases/download/0.2.13/lumpy-sv-v0.2.13.tar.gz && tar xvzf lumpy-sv-v0.2.13.tar.gz && cd lumpy-sv-v0.2.13 && make && cp ./bin/* /usr/bin/
+## && git clone --recursive https://github.com/edawson/lumpy-sv.git && cd lumpy-sv/ && make  && cp ./bin/* /usr/bin/
 
-#RUN git clone --recursive https://github.com/dellytools/delly.git && cd delly && make PARALLEL=1 -B src/delly && cp src/delly /usr/bin
 RUN wget https://github.com/dellytools/delly/releases/download/v0.7.7/delly_v0.7.7_parallel_linux_x86_64bit && mv delly_v0.7.7_parallel_linux_x86_64bit /usr/bin/delly && chmod 777 /usr/bin/delly
 
 RUN git clone git://github.com/nygenome/lancet.git && cd lancet && make && cp src/lancet /usr/bin/
@@ -81,6 +80,21 @@ RUN git clone --recursive https://github.com/edawson/freebayes && cd freebayes &
 
 RUN git clone --recursive https://github.com/edawson/LaunChair
 
-ENTRYPOINT /bin/bash
+RUN wget https://github.com/Illumina/manta/releases/download/v1.2.0/manta-1.2.0.release_src.tar.bz2 && tar xvjf manta-1.2.0.release_src.tar.bz2 && mkdir build && cd build && ../manta-1.2.0.release_src/configure --jobs=1 --prefix=/usr/bin && make install
 
-#RUN git clone --recursive https://github.com/arq5x/lumpy-sv && cd lumpy-sv && make && make install
+RUN wget https://github.com/Illumina/strelka/releases/download/v2.8.3/strelka-2.8.3.release_src.tar.bz2 && tar xvjf strelka-2.8.3.release_src.tar.bz2 && mkdir -p build && cd build && rm -rf ./* && ../strelka-2.8.3.release_src/configure --jobs=1 --prefix=/usr/bin && make install
+
+
+RUN git clone --recursive https://github.com/edawson/bamcov && \
+    cd bamcov && \
+    chmod 777 bamcov_known.sh && cp bamcov_known.sh /usr/bin
+
+RUN alias awk="gawk"
+
+RUN wget https://github.com/arq5x/bedtools2/releases/download/v2.27.1/bedtools-2.27.1.tar.gz && tar xvzf bedtools-2.27.1.tar.gz && cd bedtools2 && make -j 4 && make install
+
+RUN git clone --recursive https://github.com/edawson/maf_to_bed.git && cp maf_to_bed/*.py /usr/bin
+
+RUN pip install pysam==0.10
+
+RUN git clone --recursive https://github.com/edawson/telomerecat && cd telomerecat && python setup.py build && python setup.py install

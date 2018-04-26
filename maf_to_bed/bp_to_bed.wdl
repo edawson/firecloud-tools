@@ -1,4 +1,4 @@
-task maf2bed_task{
+task bp2bed_task{
     File sampleMAF
     String samplename
     String outname = basename(samplename, ".maf") + "bed"
@@ -12,7 +12,7 @@ task maf2bed_task{
 
 
     command <<<
-           cat $sampleMAF | python maf_to_bed.py > $outname 
+           cat $sampleMAF | python bp_to_bed.py > $outname 
     >>>
 
     output{
@@ -20,11 +20,11 @@ task maf2bed_task{
     }
 }
 
-workflow MAF2BED{
+workflow BP2BED{
     File sampleMAF
     String samplename
 
-    call maf2bed_task{
+    call bp2bed_task{
         input:
             sampleMAF=sampleMAF,
             samplename=samplename
