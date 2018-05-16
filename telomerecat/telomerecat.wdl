@@ -22,13 +22,12 @@ task telomerecat_bam2telbam_TASK{
 task telomerecat_telbam2length_TASK{
     File telbam
     String sampleNAME
-    String outname = basename(telbam, ".bam") + ".csv"
 
     runtime{
         docker : "erictdawson/svdocker:latest"
         memory : "12GB"
         cpu : "8"
-        disks : "local-disk 200 hdd"
+        disks : "local-disk 200 HDD"
     }
 
     command <<<
@@ -36,7 +35,7 @@ task telomerecat_telbam2length_TASK{
     >>>
 
     output{
-        File telomerecat_csv = "${outname}"
+        File telomerecat_csv = glob("*.csv")[0]
     }
 }
 
