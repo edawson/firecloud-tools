@@ -25,7 +25,9 @@ task MOSDEPTH_TASK{
     }
 
     output{
-
+        File mosdepth_quantized_depth = pref + ".quantized.bed.gz"
+        File mosdepth_per_base_depth = pref + ".per-base.bed.gz"
+        File mosdepth_global_depth_distribution = pref + ".mosdepth.global.dist.txt"
     }
 
 
