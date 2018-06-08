@@ -32,8 +32,8 @@ WORKDIR /app
 
 RUN git clone --recursive https://github.com/samtools/htslib.git
 RUN cd htslib && autoheader &&  autoconf && ./configure && make -j 4 && make install
-#ENV PATH "/usr/local/lib:/app:$PATH"
-#ENV PATH "/usr/local/lib:/app:$LD_LIBRARY_PATH"
+ENV PATH="/usr/local/lib:/app:$PATH"
+ENV LD_LIBRARY_PATH="/usr/local/lib:/app:$LD_LIBRARY_PATH"
 
 RUN wget https://github.com/samtools/samtools/releases/download/1.3.1/samtools-1.3.1.tar.bz2
 RUN tar xjf samtools-1.3.1.tar.bz2
@@ -50,9 +50,9 @@ RUN wget https://github.com/lomereiter/sambamba/releases/download/v0.6.6/sambamb
 RUN pip install pysam numpy && wget https://github.com/arq5x/lumpy-sv/releases/download/0.2.13/lumpy-sv-v0.2.13.tar.gz && tar xvzf lumpy-sv-v0.2.13.tar.gz && cd lumpy-sv-v0.2.13 && make && cp ./bin/* /usr/bin/
 ## && git clone --recursive https://github.com/edawson/lumpy-sv.git && cd lumpy-sv/ && make  && cp ./bin/* /usr/bin/
 
-RUN wget https://github.com/dellytools/delly/releases/download/v0.7.7/delly_v0.7.7_parallel_linux_x86_64bit && mv delly_v0.7.7_parallel_linux_x86_64bit /usr/bin/delly && chmod 777 /usr/bin/delly
+RUN wget https://github.com/dellytools/delly/releases/download/v0.7.8/delly_v0.7.8_parallel_linux_x86_64bit && mv delly_v0.7.8_parallel_linux_x86_64bit /usr/bin/delly && chmod 777 /usr/bin/delly
 
-RUN git clone git://github.com/nygenome/lancet.git && cd lancet && make && cp src/lancet /usr/bin/
+RUN wget https://github.com/nygenome/lancet/archive/v1.0.6.tar.gz && tar xvzf v1.0.6.tar.gz && cd lancet-1.0.6 && make && cp src/lancet /usr/bin/
 
 RUN git clone --recursive https://github.com/vgteam/vcflib && \
     cd vcflib && \
@@ -76,7 +76,7 @@ RUN git clone --recursive https://github.com/lh3/bwa && cd bwa && make && cp bwa
 
 RUN wget http://ftp.gnu.org/gnu/parallel/parallel-20170722.tar.bz2 && tar xvjf parallel-20170722.tar.bz2 && cd parallel-20170722 && ./configure && make && make install
 
-RUN git clone --recursive https://github.com/edawson/freebayes && cd freebayes && make && make install && cd vcflib && make && cp bin/* /usr/bin && cd ../ && cp scripts/* /usr/bin/
+RUN git clone --recursive https://github.com/edawson/freebayes && cd freebayes && make && cp scripts/* /usr/bin/
 
 RUN git clone --recursive https://github.com/edawson/LaunChair
 
@@ -98,3 +98,14 @@ RUN git clone --recursive https://github.com/edawson/maf_to_bed.git && cp maf_to
 RUN pip install pysam==0.10
 
 RUN git clone --recursive https://github.com/edawson/telomerecat && cd telomerecat && python setup.py build && python setup.py install
+
+RUN git clone --recursive https://github.com/dillonl/graphite.git && cd graphite && mkdir build && cd build && cmake .. && make && make install
+
+RUN git clone --recursive https://github.com/pezmaster31/bamtools && cd bamtools && mkdir build && cd build && cmake .. && make && make install
+RUN git clone --recursive https://github.com/edawson/telseq && cd telseq && cd src && ./autogen.sh && ./configure --with-bamtools=/usr/local && make && make install
+
+RUN wget https://github.com/brentp/mosdepth/releases/download/v0.2.3/mosdepth && chmod 777 mosdepth && mv mosdepth /usr/local/bin
+
+ADD vcfsort.sh /usr/local/bin/
+
+RUN cp /app/freebayes/bin/freebayes /usr/local/bin && chmod 777 /usr/local/bin/freebayes
