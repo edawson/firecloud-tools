@@ -1,13 +1,35 @@
+task getSampleName{
+    File BAM
+
+    command {
+        samtools view -H ${BAM} | grep -o "SM:[\.0-9A-Z\-]*" | sort | uniq 
+    }
+
+    output{
+        String sampleName = read_lines(stdout())[0]
+    }
+
+    runtime{
+        docker : "erictdawson/svdocker"
+        cpu : 1
+        memory : "1 GB"
+        preemptible : 3
+        disks : "local-disk 1000 HDD"
+    }
+}
+
 task generateBrassDiscordBam{
     File inputBAM
     File inputBAMIndex
     File inputBAMBas
+    String sampleName
 
     String iLocBAM = basename(inputBAM)
     String iLocBAI = basename(inputBAMIndex)
     String iLocBAS = basename(inputBAMBas)
 
-    String resultsDirName = basename(inputBAM, ".bam")
+    String resultsDirName = sub(sampleName, "SM:", "")
+
 
     command {
         ln -s ${inputBAM} ${iLocBAM} && \
@@ -15,6 +37,7 @@ task generateBrassDiscordBam{
         ln -s ${inputBAMBas} ${iLocBAS} && \
         brassI_np_in.pl `pwd` 1 ${iLocBAM}
     }
+
 
     runtime{
         docker : "erictdawson/cgp-docker"
@@ -36,10 +59,16 @@ workflow brassDiscordantReadsGenerator{
     File inputBAMIndex
     File inputBAMBas
 
+    call getSampleName{
+        input:
+           BAM=inputBAM 
+    }
+
     call generateBrassDiscordBam{
         input:
             inputBAM=inputBAM,
             inputBAMIndex=inputBAMIndex,
-            inputBAMBas=inputBAMBas
+            inputBAMBas=inputBAMBas,
+            sampleName=getSampleName.sampleName
     }
 }
