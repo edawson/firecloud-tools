@@ -1,29 +1,6 @@
-task mergeBrmBamsTask{
-    Array[File] brmBAMs
-    String outBase
-
-    Array[String] inputTokens = prefix("I=", brmBAMs)
-
-    command {
-        bammerge ${sep=' ' inputTokens} > ${outBase}.merged.brm.bam
-    }
-
-    runtime{
-        docker : "erictdawson/cgp-docker"
-        cpu : 1
-        memory : "18 GB"
-        preemptible : 2
-        disks : "local-disk 1000 HDD"
-    }
-
-    output{
-        File mergedBRMBAM = "${outBase}.merged.brm.bam"
-    }
-}
-
 task brassGroupTask{
     File mergedBrmBAM
-    File outBase
+    String outBase
 
     command {
         brass-group ${mergedBrmBAM} -o ${outBase}.brass_PON.groups
@@ -31,20 +8,20 @@ task brassGroupTask{
 
     runtime{
         docker : "erictdawson/cgp-docker"
-        cpu : 1
+        cpu : 4
         memory : "100 GB"
-        preemptible : 2
+        preemptible : 1
         disks : "local-disk 1000 HDD"
     }
 
     output{
-        File brassGroupGZ = "${outBase}.brass_PON.groups.gz"
+        File brassGroupGZ = "${outBase}.brass_PON.groups"
     }
 }
 
 task bgzipAndTabixTask{
     File brassPONGroupsGZ
-    File outBase
+    String outBase
     command{
         ( zgrep '^#' ${brassPONGroupsGZ};\
         zcat ${brassPONGroupsGZ} | \
@@ -56,10 +33,9 @@ task bgzipAndTabixTask{
 
     runtime{
         docker : "erictdawson/cgp-docker"
-        cpu : 1
+        cpu : 2
         memory : "14 GB"
-        preemptible : 4
-        disks : "local-disks 1000 HDD"
+        disks : "local-disk 1000 HDD"
     }
 
     output{
@@ -69,18 +45,21 @@ task bgzipAndTabixTask{
 }
 
 workflow generateBrassFilterFile{
-    Array[File] normalBRMs
+    File brassMergedBRMBAM
     String outBase
 
-    call mergeBrmBamsTask{
+    call brassGroupTask{
         input:
-            brmBAMs=normalBRMs,
+           mergedBrmBAM=brassMergedBRMBAM,
+           outBase=outBase
+    }
+
+    call bgzipAndTabixTask{
+        input:
+            brassPONGroupsGZ=brassGroupTask.brassGroupGZ,
             outBase=outBase
     }
 
 
 }
-
-
-
 
