@@ -1,0 +1,25 @@
+{
+  "brassMainWorkflow.tumorBAM": "/Users/dawsonet/hcc/HCC1143.bam",
+  "brassMainWorkflow.tumorBAMBAS": "/Users/dawsonet/hcc/HCC1143.bam.bas",
+  "brassMainWorkflow.gcBinsFile": "/Users/dawsonet/brassREFS/CNV_SV_ref/brass/500bp_windows.gc.bed.gz",
+  "brassMainWorkflow.filterFile": "/Users/dawsonet/brassREFS/CNV_SV_ref/brass/brass_np.groups.gz",
+  "brassMainWorkflow.sampleName": "hcc",
+  "brassMainWorkflow.normalBAMIndex": "/Users/dawsonet/hcc/HCC1143_BL.bam.bai",
+  "brassMainWorkflow.hiSeqDepthFile": "/Users/dawsonet/brassREFS/CNV_SV_ref/brass/HiDepth.bed.gz",
+  "brassMainWorkflow.viralSeqsFile": "/Users/dawsonet/brassREFS/CNV_SV_ref/brass/viral.genomic.fa.2bit",
+  "brassMainWorkflow.centroTeloFile": "/Users/dawsonet/brassREFS/CNV_SV_ref/brass/CentTelo.tsv",
+  "brassMainWorkflow.genomeCacheFile": "/Users/dawsonet/brassREFS/CNV_SV_ref/brass/Homo_sapiens.GRCh37.75.vagrent.cache.gz",
+  "brassMainWorkflow.microbeSeqsFiles": ["/Users/dawsonet/brassREFS/CNV_SV_ref/brass/all_ncbi_bacteria.1.fa.2bit", "/Users/dawsonet/brassREFS/CNV_SV_ref/brass/all_ncbi_bacteria.2.fa.2bit", "/Users/dawsonet/brassREFS/CNV_SV_ref/brass/all_ncbi_bacteria.3.fa.2bit", "/Users/dawsonet/brassREFS/CNV_SV_ref/brass/all_ncbi_bacteria.4.fa.2bit"],
+  "brassMainWorkflow.microbeSeqsFilesPrefix" : "all_ncbi_bacteria",
+  "brassMainWorkflow.microbeSeqsDir" : "/Users/dawsonet/brassREFS/CNV_SV_ref/brass/",
+  "brassMainWorkflow.normalBAM": "/Users/dawsonet/hcc/HCC1143_BL.bam",
+  "brassMainWorkflow.normalBAMBAS": "/Users/dawsonet/hcc/HCC1143_BL.bam.bas",
+  "brassMainWorkflow.assembly": "hg19",
+  "brassMainWorkflow.cytobandFile": "/Users/dawsonet/brassREFS/CNV_SV_ref/brass/cytoband.hg19.txt",
+  "brassMainWorkflow.species": "human",
+  "brassMainWorkflow.protocol": "WGS",
+  "brassMainWorkflow.genomeFile": "/Users/dawsonet/Dropbox/refs/Homo_sapiens_assembly19.fasta",
+  "brassMainWorkflow.genomeFAIFile": "/Users/dawsonet/Dropbox/refs/Homo_sapiens_assembly19.fasta.fai",
+  "brassMainWorkflow.tumorBAMIndex": "/Users/dawsonet/hcc/HCC1143.bam.bai"
+}
+
