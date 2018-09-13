@@ -1,0 +1,9 @@
+{
+  "dupholdWORKFLOW.FASTA": "File",
+  "dupholdWORKFLOW.inputVCF": "File",
+  "dupholdWORKFLOW.FAI": "File",
+  "dupholdWORKFLOW.inputVCFIndex": "File",
+  "dupholdWORKFLOW.inputBAM": "File",
+  "dupholdWORKFLOW.inputBAI": "File"
+}
+
