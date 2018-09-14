@@ -2,18 +2,21 @@ task dupholdTASK{
     File inputBAM
     File inputBAI
 
-    File inputVCF
-    File inputVCFIndex
+    File inputVCFGZ
+    File inputVCFTBI
+
 
     File FASTA
     File FAI
 
-    String obase = basename(inputVCF, ".vcf")
+    String obase = basename(inputVCFGZ, ".vcf.gz")
 
     command{
-        duphold --threads 4 --vcf ${inputVCF} \
-        --bam ${inputBAM} --fasta $fasta \
-        --output ${obase}.dupholded.vcf
+        duphold -v ${inputVCFGZ} \
+        -b ${inputBAM} -f ${FASTA} \
+        -o ${obase}.dupholded.vcf -t 4 && 
+        bgzip ${obase}.dupholded.vcf &&
+        tabix ${obase}.dupholded.vcf.gz
     }
 
     runtime{
@@ -24,7 +27,8 @@ task dupholdTASK{
     }
 
     output{
-        File dupholdAnnotatedVCF = "${obase}.dupholded.vcf"
+        File dupholdAnnotatedVCFGZ = "${obase}.dupholded.vcf.gz"
+        File dupholdAnnotatedVCFTBI = "${obase}.dupholded.vcf.gz.tbi"
     }
 
 }
@@ -33,8 +37,8 @@ workflow dupholdWORKFLOW{
     File inputBAM
     File inputBAI
 
-    File inputVCF
-    File inputVCFIndex
+    File inputVCFGZ
+    File inputVCFTBI
 
     File FASTA
     File FAI
@@ -43,8 +47,8 @@ workflow dupholdWORKFLOW{
         input:
             inputBAM=inputBAM,
             inputBAI=inputBAI,
-            inputVCF=inputVCF,
-            inputVCFIndex=inputVCFIndex,
+            inputVCFGZ=inputVCFGZ,
+            inputVCFTBI=inputVCFTBI,
             FASTA=FASTA,
             FAI=FAI
     }

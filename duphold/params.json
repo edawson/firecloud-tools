@@ -1,9 +1,9 @@
 {
-  "dupholdWORKFLOW.FASTA": "File",
-  "dupholdWORKFLOW.inputVCF": "File",
-  "dupholdWORKFLOW.FAI": "File",
-  "dupholdWORKFLOW.inputVCFIndex": "File",
-  "dupholdWORKFLOW.inputBAM": "File",
-  "dupholdWORKFLOW.inputBAI": "File"
+  "dupholdWORKFLOW.FASTA": "mega.orig.fa",
+  "dupholdWORKFLOW.inputVCFGZ": "head.vcf.gz",
+  "dupholdWORKFLOW.inputVCFTBI": "head.vcf.gz.tbi",
+  "dupholdWORKFLOW.FAI": "mega.orig.fa.fai",
+  "dupholdWORKFLOW.inputBAM": "alt.sorted.bam",
+  "dupholdWORKFLOW.inputBAI": "alt.sorted.bam.bai"
 }
 

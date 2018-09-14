@@ -1,2 +1,11 @@
 *.wdl
 Dockerfile
+*.bam
+*.bai
+*.fasta
+*.fa
+*.fai
+*.vcf
+*.json
+*.tbi
+*.gz
