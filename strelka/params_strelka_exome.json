@@ -7,5 +7,6 @@
   "strelkaFullWorkflow.tumorIndex": "alt.sorted.bam.bai",
   "strelkaFullWorkflow.tumorBam": "alt.sorted.bam",
   "strelkaFullWorkflow.name": "TEST",
-  "strelkaFullWorkflow.callRegionsBED" : "exome.bed"
+  "strelkaFullWorkflow.callRegionsBED" : "exome.bed.gz",
+  "strelkaFullWorkflow.callRegionsBEDTBI" : "exome.bed.gz.tbi"
 }

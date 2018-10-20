@@ -6,6 +6,7 @@ task strelkaSomaticTask{
     File normalBam
     File normalIndex
     File callRegionsBED
+    File callRegionsBEDTBI
     
     Int threads
     String name
@@ -46,6 +47,7 @@ task strelkaGermlineTask{
     File normalBam
     File normalIndex
     File callRegionsBED
+    File callRegionsBEDTBI
     
     Int threads
     String name
@@ -83,6 +85,7 @@ workflow strelkaFullWorkflow{
     File normalBam
     File normalIndex
     File callRegionsBED
+    File callRegionsBEDTBI
 
     Int threads
     String name
@@ -96,6 +99,7 @@ workflow strelkaFullWorkflow{
             normalBam=normalBam,
             normalIndex=normalIndex,
             callRegionsBED=callRegionsBED,
+            callRegionsBEDTBI=callRegionsBEDTBI,
             threads=threads,
             name=name
 
@@ -108,6 +112,7 @@ workflow strelkaFullWorkflow{
          normalBam=normalBam,
          normalIndex=normalIndex,
          callRegionsBED=callRegionsBED,
+         callRegionsBEDTBI=callRegionsBEDTBI,
          threads=threads,
          name=name
     }
