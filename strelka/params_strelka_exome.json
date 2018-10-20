@@ -1,0 +1,11 @@
+{
+  "strelkaFullWorkflow.normalBam": "ref.sorted.bam",
+  "strelkaFullWorkflow.reference": "mega.orig.fa",
+  "strelkaFullWorkflow.normalIndex": "ref.sorted.bam.bai",
+  "strelkaFullWorkflow.referenceIndex": "mega.orig.fa.fai",
+  "strelkaFullWorkflow.threads": "4",
+  "strelkaFullWorkflow.tumorIndex": "alt.sorted.bam.bai",
+  "strelkaFullWorkflow.tumorBam": "alt.sorted.bam",
+  "strelkaFullWorkflow.name": "TEST",
+  "strelkaFullWorkflow.callRegionsBED" : "exome.bed"
+}
